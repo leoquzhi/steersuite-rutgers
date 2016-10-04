@@ -10,17 +10,22 @@ bool SteerLib::GJK_EPA::intersect(float& return_penetration_depth, Util::Vector&
 {
 	return false; // There is no collision
 }
-Util::Vector SteerLib::GJK_EPA::support(const std::vector<Util::Vector>& shapeA, Util::Vector b)
+
+Util::Vector SteerLib::GJK_EPA::support(const std::vector<Util::Vector>& shapeA, const std::vector<Util::Vector>& shapeB, Util::Vector b)
+{
+	return farthestPoint(shapeA, b) - farthestPoint(shapeB, -b);
+}
+Util::Vector SteerLib::GJK_EPA::farthestPoint(const std::vector<Util::Vector>& shape, Util::Vector b)
 {
 	double max = 0;
 	int p = 0;
-	for (int i = 0; i < shapeA.size(); i++) 
+	for (int i = 0; i < shape.size(); i++) 
 	{
-		if (Unit::dot(shapeA[i], b) > max) 
+		if (Unit::dot(shape[i], b) > max) 
 		{
-			max = Unit::dot(shapeA[i], b);
+			max = Unit::dot(shape[i], b);
 			p = i;
 		}
 	}
-	return shapeA[p];
+	return shape[p];
 }
