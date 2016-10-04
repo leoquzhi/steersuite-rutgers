@@ -10,3 +10,17 @@ bool SteerLib::GJK_EPA::intersect(float& return_penetration_depth, Util::Vector&
 {
 	return false; // There is no collision
 }
+Util::Vector SteerLib::GJK_EPA::support(const std::vector<Util::Vector>& shapeA, Util::Vector b)
+{
+	double max = 0;
+	int p = 0;
+	for (int i = 0; i < shapeA.size(); i++) 
+	{
+		if (Unit::dot(shapeA[i], b) > max) 
+		{
+			max = Unit::dot(shapeA[i], b);
+			p = i;
+		}
+	}
+	return shapeA[p];
+}
